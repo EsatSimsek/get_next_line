@@ -67,17 +67,18 @@ char	*ft_strjoin(char *res, char const *buffer)
 	if (!res)
 	{
 		res = (char *)malloc(1 * sizeof(char));
+		if (!res)
+			return (NULL);
 		res[0] = '\0';
 	}
-	if (!res || !buffer)
-		return (NULL);
+	if (!buffer)
+		return (free(res), NULL);
 	res_len = ft_strlen(res);
 	buffer_len = ft_strlen(buffer);
 	dst = (char *)malloc(sizeof(char) * (res_len + buffer_len + 1));
 	if (!dst)
-		return (NULL);
-	if (res)
-		ft_memcpy(dst, res, res_len);
+		return (free(res), NULL);
+	ft_memcpy(dst, res, res_len);
 	ft_memcpy(dst + res_len, buffer, buffer_len);
 	dst[res_len + buffer_len] = '\0';
 	free(res);
