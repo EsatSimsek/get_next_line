@@ -38,6 +38,7 @@ char	*ft_strchr(const char *s, int c)
 		return ((char *)s);
 	return (NULL);
 }
+
 void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
 	size_t				x;
