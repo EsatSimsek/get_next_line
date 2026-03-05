@@ -12,12 +12,6 @@
 
 #include "get_next_line.h"
 
-int	freebuf(char *buffer)
-{
-	free(buffer);
-	return (-1);
-}
-
 size_t	ft_strlen(const char *s)
 {
 	size_t	x;

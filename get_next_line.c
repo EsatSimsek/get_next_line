@@ -36,14 +36,14 @@ static char	*read_to_static(int fd, char *static_res)
 		x = read(fd, str, BUFFER_SIZE);
 		if (x == -1)
 		{
-			freebuf(str);
+			free(str);
 			return (freest(&static_res));
 		}
 		str[x] = '\0';
 		static_res = ft_strjoin(static_res, str);
 		if (!static_res)
 		{
-			freebuf(str);
+			free(str);
 			return (NULL);
 		}
 	}
