@@ -12,6 +12,16 @@
 
 #include "get_next_line.h"
 
+static char	*freest(char **st)
+{
+	if (*st)
+	{
+		free(*st);
+		*st = NULL;
+	}
+	return (NULL);
+}
+
 static char	*read_to_static(int fd, char *static_res)
 {
 	char	*str;
@@ -19,20 +29,23 @@ static char	*read_to_static(int fd, char *static_res)
 
 	str = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!str)
-		return (free(static_res), NULL);
+		return (freest(&static_res));
 	x = 1;
 	while (!ft_strchr(static_res, '\n') && x != 0)
 	{
 		x = read(fd, str, BUFFER_SIZE);
 		if (x == -1)
 		{
-			free(static_res);
-			return (free(str), NULL);
+			freebuf(str);
+			return (freest(&static_res));
 		}
 		str[x] = '\0';
 		static_res = ft_strjoin(static_res, str);
 		if (!static_res)
-			return (free(str), NULL);
+		{
+			freebuf(str);
+			return (NULL);
+		}
 	}
 	free(str);
 	return (static_res);
@@ -70,13 +83,13 @@ static char	*new_static_res(char *static_res)
 	while (static_res[x] != '\n' && static_res[x] != '\0')
 		x++;
 	if (static_res[x] == '\0')
-		return (free(static_res), NULL);
+		return (freest(&static_res));
 	r = ft_strlen(static_res) - x - 1;
 	if (r == 0)
-		return (free(static_res), NULL);
+		return (freest(&static_res));
 	new_res = (char *)malloc(sizeof(char) * (r + 1));
 	if (!new_res)
-		return (free(static_res), NULL);
+		return (freest(&static_res));
 	ft_memcpy(new_res, static_res + x + 1, r);
 	new_res[r] = '\0';
 	free(static_res);
@@ -95,11 +108,7 @@ char	*get_next_line(int fd)
 		return (NULL);
 	line = get_line(res);
 	if (!line)
-	{
-		free(res);
-		res = NULL;
-		return (NULL);
-	}
+		return (freest(&res));
 	res = new_static_res(res);
 	return (line);
 }

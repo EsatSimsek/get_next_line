@@ -12,6 +12,12 @@
 
 #include "get_next_line.h"
 
+int	freebuf(char *buffer)
+{
+	free(buffer);
+	return (-1);
+}
+
 size_t	ft_strlen(const char *s)
 {
 	size_t	x;
@@ -71,13 +77,14 @@ char	*ft_strjoin(char *res, char const *buffer)
 			return (NULL);
 		res[0] = '\0';
 	}
-	if (!buffer)
-		return (free(res), NULL);
 	res_len = ft_strlen(res);
 	buffer_len = ft_strlen(buffer);
 	dst = (char *)malloc(sizeof(char) * (res_len + buffer_len + 1));
 	if (!dst)
-		return (free(res), NULL);
+	{
+		free(res);
+		return (NULL);
+	}
 	ft_memcpy(dst, res, res_len);
 	ft_memcpy(dst + res_len, buffer, buffer_len);
 	dst[res_len + buffer_len] = '\0';
