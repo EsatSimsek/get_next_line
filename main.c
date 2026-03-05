@@ -6,7 +6,7 @@
 /*   By: essimsek <essimsek@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 14:46:44 by essimsek          #+#    #+#             */
-/*   Updated: 2026/02/27 14:46:46 by essimsek         ###   ########.fr       */
+/*   Updated: 2026/03/05 15:11:57 by essimsek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,11 @@ int	main(void)
 	char	*line;
 
 	fd = open("test.txt", O_RDONLY);
-	if (fd == -1)
-	{
-		printf("Dosya acilamadi!\n");
-		return (1);
-	}
-	while ((line = get_next_line(fd)))
+	line = get_next_line(fd);
+	while (line)
 	{
 		printf("%s", line);
-		free(line);
+		line = get_next_line(fd);
 	}
 	close(fd);
 	return (0);
